@@ -47,7 +47,7 @@ int main()
 
 		
 		float t = GetTime();  // Get time in seconds since InitWindow()
-		
+		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
 		
 		//When key is pressed lab 2
 		if(IsKeyPressed(KEY_SPACE)) // Reset position and velocity when space is pressed
@@ -61,24 +61,25 @@ int main()
 		}
 		if (IsKeyDown(KEY_ONE)) // Increasing launch angle
 		{
-			launchAngle += 1.0f;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Tried leaving as is but it woildnt be illistrated so leave it in 
+			launchAngle += 1.5f * dt;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;// Tried leaving as is but it woildnt be illistrated so leave it in 
 			birdvelocity = launchVelocity;
+			
 		}
 		if (IsKeyDown(KEY_TWO)) // Decreasing launch angle
 		{
-			launchAngle -= 1.0f;
+			launchAngle -= 1.5f * dt;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
 		if (IsKeyDown(KEY_THREE)) // Increasing launch speed
 		{
-			launchSpeed += 1.0f;
+			launchSpeed += 1.5f ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
 		if(IsKeyDown(KEY_FOUR)){  // Decreasing launch speed
-			launchSpeed -= 1.0f;
+			launchSpeed -= 1.5f ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
@@ -89,7 +90,7 @@ int main()
 		}
 		
 		futureLaunchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // For drawing the launch angle line
-		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
+		
 		birdvelocity += birdacceleration * dt;// Change velocity when space is pressed
 		birdposition += birdvelocity * dt; // Change position based on velocity
 
@@ -98,6 +99,7 @@ int main()
 
 			//Where our bird is drawn and the platform and ground
 			DrawCircleV(birdposition, radius, RED);
+			DrawCircleV(launchposition, radius,DARKBLUE);
 			DrawRectangleRec(platform, BEIGE);
 			DrawRectangleRec(ground, BLUE);
 
