@@ -34,7 +34,7 @@ int main()
 	// Reassign launchvelocity like when space is pressed part 1
 	Vector2 launchposition = birdposition; // Store start position for reset
 	Vector2 launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Calculate launch velocity from angle and speed
-	
+	Vector2 futureLaunchVelocity = launchVelocity; // For drawing the launch angle line
 
 
 	Vector2 birdvelocity = launchVelocity; // Initial velocity
@@ -59,25 +59,25 @@ int main()
 			
 			
 		}
-		if (IsKeyDown(KEY_ONE))
+		if (IsKeyDown(KEY_ONE)) // Increasing launch angle
 		{
 			launchAngle += 1.0f;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Tried leaving as is but it woildnt be illistrated so leave it in 
 			birdvelocity = launchVelocity;
 		}
-		if (IsKeyDown(KEY_TWO))
+		if (IsKeyDown(KEY_TWO)) // Decreasing launch angle
 		{
 			launchAngle -= 1.0f;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
-		if(IsKeyDown(KEY_THREE))
+		if (IsKeyDown(KEY_THREE)) // Increasing launch speed
 		{
 			launchSpeed += 1.0f;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
-		if(IsKeyDown(KEY_FOUR)){
+		if(IsKeyDown(KEY_FOUR)){  // Decreasing launch speed
 			launchSpeed -= 1.0f;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
@@ -88,7 +88,7 @@ int main()
 			CloseWindow();
 		}
 		
-
+		futureLaunchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // For drawing the launch angle line
 		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
 		birdvelocity += birdacceleration * dt;// Change velocity when space is pressed
 		birdposition += birdvelocity * dt; // Change position based on velocity
@@ -101,6 +101,8 @@ int main()
 			DrawRectangleRec(platform, BEIGE);
 			DrawRectangleRec(ground, BLUE);
 
+			//Displaying the launch angle line
+			DrawLineV(launchposition, launchposition + futureLaunchVelocity,GOLD);
 
 			// Texts That are added to the screen
 			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK);
