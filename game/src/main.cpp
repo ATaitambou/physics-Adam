@@ -7,32 +7,41 @@ int main()
     
 	InitWindow(800, 800, "Physics-Adam"); // Window size and title changes
 
-	//Vector2 circleposition_1 = { 400.0f, 400.0f }; // circle 1 position
-	Vector2 launchposition = { 70.0f, 580.0f }; // circle 2 position
-	//float circleradius_1 = 25.0f; // circle radius
-	//Color circlecolor_1 = PURPLE;
+	
+	
+	
+	Rectangle platform;
+	platform.x = 0.0f;
+	platform.y = 600.0f;
+	platform.width = 100.0f;
+	platform.height = 20.0f;
 
+	Rectangle ground;
+	ground.x = 0.0f;
+	ground.y = 780.0f;
+	ground.width = 800.0f;
+	ground.height = 20.0f;
 
+	
+	float radius = 10.0f;
+	Vector2 launchposition;
+	launchposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
+	launchposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
 
 	while (!WindowShouldClose()) // Detect window close button or ESC key
     {
 		float t = GetTime();  // Get time in seconds since InitWindow()
 		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
-
-		//circleposition_1.x = 400.0f + 150.0f * sin(t); // moving left and right within 150 units forever
-		//circleposition_2.y += 10.0f * dt; // moving down at 10 units per second so basically the speed
-
+		launchposition.x += 100 * dt; // Move right at 100 pixels per second
 
         BeginDrawing();
-            ClearBackground(DARKGREEN); // Background changes
+            ClearBackground(WHITE); // Background changes
 			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK); // Text changes
 			DrawCircleV(launchposition, 10.0f, RED);
-			DrawRectangle(0, 600, 100, 20, BROWN);
-			DrawRectangle(0, 700, 800, 20, BLUE);
+			DrawRectangleRec(platform, BEIGE);
+			DrawRectangleRec(ground, BLUE);
 
 
-			//DrawCircleV(circleposition_1, circleradius_1, circlecolor_1); // Draw circle 1 position, radius and color
-			//DrawCircleV(circleposition_2, circleradius_1, RED); // Draw circle 2 position, radius and color
         EndDrawing();
     }
 
