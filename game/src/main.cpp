@@ -24,13 +24,22 @@ int main()
 
 	
 	float radius = 10.0f;
-	Vector2 launchposition;
-	launchposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
-	launchposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
+	Vector2 birdposition;
+	birdposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
+	birdposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
+
+	float launchSpeed = 150.0f;
+	float launchAngle = 45.0f;
+
+	// Reassign launchvelocity like when space is pressed part 1
+	Vector2 launchposition = birdposition; // Store start position for reset
+	Vector2 launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Calculate launch velocity from angle and speed
+	
 
 
-	Vector2 birdvelocity = { 100.0f, 0.0f }; // Initial velocity
+	Vector2 birdvelocity = launchVelocity; // Initial velocity
 	Vector2 birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
+
 
 	while (!WindowShouldClose()) // Detect window close button or ESC key
     {
@@ -38,26 +47,66 @@ int main()
 
 		
 		float t = GetTime();  // Get time in seconds since InitWindow()
-		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
 		
-		//if (IsKeyPressed(KEY_SPACE))
-		//{
-		//	birdvelocity += birdacceleration * dt;// Change velocity when space is pressed
-		//	launchposition += birdvelocity * dt; // Change position based on velocity
-		//}
+		
+		//When key is pressed lab 2
+		if(IsKeyPressed(KEY_SPACE)) // Reset position and velocity when space is pressed
+		{
 
+			birdposition = launchposition;// 1. Set bird position to launch position 
+			birdvelocity = launchVelocity;// 2. Set bird velocity based on the launch angle and launchspeed see intial launchvelocity asssignemnt 
+			
+			
+			
+		}
+		if (IsKeyDown(KEY_ONE))
+		{
+			launchAngle += 1.0f;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			birdvelocity = launchVelocity;
+		}
+		if (IsKeyDown(KEY_TWO))
+		{
+			launchAngle -= 1.0f;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			birdvelocity = launchVelocity;
+		}
+		if(IsKeyDown(KEY_THREE))
+		{
+			launchSpeed += 1.0f;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			birdvelocity = launchVelocity;
+		}
+		if(IsKeyDown(KEY_FOUR)){
+			launchSpeed -= 1.0f;
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			birdvelocity = launchVelocity;
+		}
+		
+		if(IsKeyDown(KEY_ESCAPE))
+		{
+			CloseWindow();
+		}
+		
+
+		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
 		birdvelocity += birdacceleration * dt;// Change velocity when space is pressed
-		launchposition += birdvelocity * dt; // Change position based on velocity
+		birdposition += birdvelocity * dt; // Change position based on velocity
 
         BeginDrawing();
             ClearBackground(WHITE); // Background changes
-			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK); // Text changes
-			DrawCircleV(launchposition, 10.0f, RED);
+
+			//Where our bird is drawn and the platform and ground
+			DrawCircleV(birdposition, radius, RED);
 			DrawRectangleRec(platform, BEIGE);
 			DrawRectangleRec(ground, BLUE);
 
-			
 
+			// Texts That are added to the screen
+			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK);
+			DrawText(TextFormat("Launch Position: %f %f ",launchposition.x, launchposition.y),10,30,20, BLACK);
+			DrawText(TextFormat("Launch Angle: %f ", launchAngle), 10, 50, 20, BLACK);
+			DrawText(TextFormat("Launch Speed: %f ", launchSpeed), 10, 70, 20, BLACK);
         EndDrawing();
     }
 
