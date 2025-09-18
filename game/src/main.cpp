@@ -48,7 +48,10 @@ int main()
 		
 		float t = GetTime();  // Get time in seconds since InitWindow()
 		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
-		
+
+
+		launchVelocity = launchVelocity + birdacceleration * dt;
+
 		//When key is pressed lab 2
 		if(IsKeyPressed(KEY_SPACE)) // Reset position and velocity when space is pressed
 		{
@@ -77,11 +80,17 @@ int main()
 			launchSpeed += 1.5f ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
+			
 		}
 		if(IsKeyDown(KEY_FOUR)){  // Decreasing launch speed
 			launchSpeed -= 1.5f ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
+		}
+		if (IsKeyDown(KEY_FIVE)) {
+
+			
+
 		}
 		
 		if(IsKeyDown(KEY_ESCAPE))
