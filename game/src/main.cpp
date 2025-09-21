@@ -64,26 +64,26 @@ int main()
 		}
 		if (IsKeyDown(KEY_DOWN)) // Increasing launch angle
 		{
-			launchAngle += 1.5f * dt;
+			launchAngle += 90.0f * DEG2RAD * dt;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;// Tried leaving as is but it woildnt be illistrated so leave it in 
 			birdvelocity = launchVelocity;
 			
 		}
 		if (IsKeyDown(KEY_UP)) // Decreasing launch angle
 		{
-			launchAngle -= 1.5f * dt;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			launchAngle -= 90.0f * DEG2RAD * dt;
+			/*launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;*/
 			birdvelocity = launchVelocity;
 		}
 		if (IsKeyDown(KEY_RIGHT)) // Increasing launch speed
 		{
-			launchSpeed += 200.0f * dt;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
+			launchSpeed += 90.0f * dt;
+			/*launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;*/
 			birdvelocity = launchVelocity;
 			
 		}
 		if(IsKeyDown(KEY_LEFT)){  // Decreasing launch speed
-			launchSpeed -= 200.0f * dt ;
+			launchSpeed -= 90.0f * dt ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
@@ -113,7 +113,7 @@ int main()
 			DrawRectangleRec(ground, BLUE);
 
 			//Displaying the launch angle line
-			DrawLineV(launchposition, launchposition + futureLaunchVelocity,GOLD);
+			DrawLineV(launchposition, launchposition + futureLaunchVelocity,RED);
 
 			// Texts That are added to the screen
 			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK);
