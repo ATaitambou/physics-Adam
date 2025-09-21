@@ -62,28 +62,28 @@ int main()
 			
 			
 		}
-		if (IsKeyDown(KEY_ONE)) // Increasing launch angle
+		if (IsKeyDown(KEY_DOWN)) // Increasing launch angle
 		{
 			launchAngle += 1.5f * dt;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;// Tried leaving as is but it woildnt be illistrated so leave it in 
 			birdvelocity = launchVelocity;
 			
 		}
-		if (IsKeyDown(KEY_TWO)) // Decreasing launch angle
+		if (IsKeyDown(KEY_UP)) // Decreasing launch angle
 		{
 			launchAngle -= 1.5f * dt;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
-		if (IsKeyDown(KEY_THREE)) // Increasing launch speed
+		if (IsKeyDown(KEY_RIGHT)) // Increasing launch speed
 		{
-			launchSpeed += 1.5f ;
+			launchSpeed += 200.0f * dt;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 			
 		}
-		if(IsKeyDown(KEY_FOUR)){  // Decreasing launch speed
-			launchSpeed -= 1.5f ;
+		if(IsKeyDown(KEY_LEFT)){  // Decreasing launch speed
+			launchSpeed -= 200.0f * dt ;
 			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
 			birdvelocity = launchVelocity;
 		}
@@ -107,7 +107,7 @@ int main()
             ClearBackground(WHITE); // Background changes
 
 			//Where our bird is drawn and the platform and ground
-			DrawCircleV(birdposition, radius, RED);
+			//DrawCircleV(birdposition, radius, RED);
 			DrawCircleV(launchposition, radius,DARKBLUE);
 			DrawRectangleRec(platform, BEIGE);
 			DrawRectangleRec(ground, BLUE);
