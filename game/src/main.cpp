@@ -22,24 +22,49 @@ int main()
 	ground.width = 800.0f;
 	ground.height = 20.0f;
 
+	class Bird 
+	{
+	public:
+		float radius = 10.0f;
+		float launchSpeed = 150.0f;
+		float launchAngle = 45.0f;
+
+		Vector2 birdposition;
+		Vector2 launchposition;
+		Vector2 launchVelocity;
+		Vector2 birdvelocity;
+		Vector2 birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
+		Vector2 futureLaunchVelocity;
+
+		Bird(Rectangle platform)
+		{
+
+			// Birds Starting Position and Velocity
+			birdposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
+			birdposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
+
+			launchposition = birdposition; // Store start position for reset
+			
+			// Launch velocity
+			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Calculate launch velocity from angle and speed
+			futureLaunchVelocity = launchVelocity; // For drawing the launch angle line
+			birdvelocity = launchVelocity; // Initial velocity
+
+			birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
+			bool launched = false;
+		}
+
+		void launch()
+		{
+			birdposition = launchposition;// 1. Set bird position to launch position 
+			birdvelocity = launchVelocity;// 2. Set bird velocity based on the launch angle and launchspeed see intial launchvelocity asssignemnt 
+		}
+
+	};
+
 	
-	float radius = 10.0f;
-	Vector2 birdposition;
-	birdposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
-	birdposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
 
-	float launchSpeed = 150.0f;
-	float launchAngle = 45.0f;
-
-	// Reassign launchvelocity like when space is pressed part 1
-	Vector2 launchposition = birdposition; // Store start position for reset
-	Vector2 launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Calculate launch velocity from angle and speed
-	Vector2 futureLaunchVelocity = launchVelocity; // For drawing the launch angle line
-
-
-	Vector2 birdvelocity = launchVelocity; // Initial velocity
-	Vector2 birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
-
+	Bird bird(platform);
 
 	while (!WindowShouldClose()) // Detect window close button or ESC key
     {
@@ -50,76 +75,72 @@ int main()
 		float dt = GetFrameTime(); // Get time in seconds for last frame drawn (delta time)
 
 
-		launchVelocity = launchVelocity + birdacceleration * dt;
+		/*launchVelocity = launchVelocity + birdacceleration * dt;*/
 
 		//When key is pressed lab 2
 		if(IsKeyPressed(KEY_SPACE)) // Reset position and velocity when space is pressed
 		{
 
-			birdposition = launchposition;// 1. Set bird position to launch position 
-			birdvelocity = launchVelocity;// 2. Set bird velocity based on the launch angle and launchspeed see intial launchvelocity asssignemnt 
+			bird.launch(); // Using the launch function from the bird class to reset position and velocity
+			//bird.birdposition = bird.launchposition;// 1. Set bird position to launch position 
+			//bird.birdvelocity = bird.launchVelocity;// 2. Set bird velocity based on the launch angle and launchspeed see intial launchvelocity asssignemnt 
 			
 			
 			
 		}
 		if (IsKeyDown(KEY_DOWN)) // Increasing launch angle
 		{
-			launchAngle += 90.0f * DEG2RAD * dt;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;// Tried leaving as is but it woildnt be illistrated so leave it in 
-			birdvelocity = launchVelocity;
+			bird.launchAngle += 90.0f * DEG2RAD * dt;
+			bird.launchVelocity = Vector2Rotate(Vector2UnitX, bird.launchAngle) * bird.launchSpeed;// Tried leaving as is but it woildnt be illistrated so leave it in 
+			bird.birdvelocity = bird.launchVelocity;
 			
 		}
 		if (IsKeyDown(KEY_UP)) // Decreasing launch angle
 		{
-			launchAngle -= 90.0f * DEG2RAD * dt;
-			/*launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;*/
-			birdvelocity = launchVelocity;
+			bird.launchAngle -= 90.0f * DEG2RAD * dt;
+			bird.launchVelocity = Vector2Rotate(Vector2UnitX, bird.launchAngle) * bird.launchSpeed;
+			bird.birdvelocity = bird.launchVelocity;
 		}
 		if (IsKeyDown(KEY_RIGHT)) // Increasing launch speed
 		{
-			launchSpeed += 90.0f * dt;
-			/*launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;*/
-			birdvelocity = launchVelocity;
+			bird.launchSpeed += 90.0f * dt;
+			///*launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;*/
+			bird.birdvelocity = bird.launchVelocity;
 			
 		}
 		if(IsKeyDown(KEY_LEFT)){  // Decreasing launch speed
-			launchSpeed -= 90.0f * dt ;
-			launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed;
-			birdvelocity = launchVelocity;
+			bird.launchSpeed -= 90.0f * dt ;
+			bird.launchVelocity = Vector2Rotate(Vector2UnitX, bird.launchAngle) * bird.launchSpeed;
+			bird.birdvelocity = bird.launchVelocity;
 		}
-		if (IsKeyDown(KEY_FIVE)) {
-
-			
-
-		}
-		
+	
 		if(IsKeyDown(KEY_ESCAPE))
 		{
 			CloseWindow();
 		}
 		
-		futureLaunchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // For drawing the launch angle line
+		bird.futureLaunchVelocity = Vector2Rotate(Vector2UnitX, bird.launchAngle) * bird.launchSpeed; // For drawing the launch angle line
 		
-		birdvelocity += birdacceleration * dt;// Change velocity when space is pressed
-		birdposition += birdvelocity * dt; // Change position based on velocity
+		bird.birdvelocity += bird.birdacceleration * dt;// Change velocity when space is pressed
+		bird.birdposition += bird.birdvelocity * dt; // Change position based on velocity
 
         BeginDrawing();
             ClearBackground(WHITE); // Background changes
 
 			//Where our bird is drawn and the platform and ground
-			//DrawCircleV(birdposition, radius, RED);
-			DrawCircleV(launchposition, radius,DARKBLUE);
+			DrawCircleV(bird.birdposition, bird.radius, RED);
+			DrawCircleV(bird.launchposition, bird.radius,DARKBLUE);
 			DrawRectangleRec(platform, BEIGE);
 			DrawRectangleRec(ground, BLUE);
 
 			//Displaying the launch angle line
-			DrawLineV(launchposition, launchposition + futureLaunchVelocity,RED);
+			DrawLineV(bird.launchposition, bird.launchposition + bird.futureLaunchVelocity,RED);
 
 			// Texts That are added to the screen
 			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK);
-			DrawText(TextFormat("Launch Position: %f %f ",launchposition.x, launchposition.y),10,30,20, BLACK);
-			DrawText(TextFormat("Launch Angle: %f ", launchAngle), 10, 50, 20, BLACK);
-			DrawText(TextFormat("Launch Speed: %f ", launchSpeed), 10, 70, 20, BLACK);
+			DrawText(TextFormat("Launch Position: %f %f ",bird.launchposition.x, bird.launchposition.y),10,30,20, BLACK);
+			DrawText(TextFormat("Launch Angle: %f ", bird.launchAngle), 10, 50, 20, BLACK);
+			DrawText(TextFormat("Launch Speed: %f ", bird.launchSpeed), 10, 70, 20, BLACK);
         EndDrawing();
     }
 
@@ -129,3 +150,20 @@ int main()
 
 
 
+// ontop of while loop
+	//float radius = 10.0f;
+	//Vector2 birdposition;
+	//birdposition.x = platform.x + platform.width - radius; // Launch at right end of platform doing the math for me
+	//birdposition.y = platform.y - (platform.height - radius); // Launch at top of platform doing the math for me
+
+	//float launchSpeed = 150.0f;
+	//float launchAngle = 45.0f;
+
+	//// Reassign launchvelocity like when space is pressed part 1
+	//Vector2 launchposition = birdposition; // Store start position for reset
+	//Vector2 launchVelocity = Vector2Rotate(Vector2UnitX, launchAngle) * launchSpeed; // Calculate launch velocity from angle and speed
+	//Vector2 futureLaunchVelocity = launchVelocity; // For drawing the launch angle line
+
+
+	//Vector2 birdvelocity = launchVelocity; // Initial velocity
+	//Vector2 birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
