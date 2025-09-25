@@ -27,7 +27,7 @@ int main()
 	public:
 		float radius = 10.0f;
 		float launchSpeed = 150.0f;
-		float launchAngle = 90.0f;
+		float launchAngle = 45.0f * DEG2RAD;
 
 		Vector2 birdposition;
 		Vector2 launchposition;
@@ -148,7 +148,7 @@ int main()
 			// Texts That are added to the screen
 			DrawText("Adam Taitambou 101399640", 10, 10, 20, BLACK);
 			DrawText(TextFormat("Launch Position: %f %f ",bird.launchposition.x, bird.launchposition.y),10,30,20, BLACK);
-			DrawText(TextFormat("Launch Angle: %f ", bird.launchAngle), 10, 50, 20, BLACK);
+			DrawText(TextFormat("Launch Angle: %f ", bird.launchAngle * -RAD2DEG), 10, 50, 20, BLACK);
 			DrawText(TextFormat("Launch Speed: %f ", bird.launchSpeed), 10, 70, 20, BLACK);
 			DrawText(TextFormat("Gravity: %f ", bird.birdacceleration), 10, 90, 20, BLACK);
 			
