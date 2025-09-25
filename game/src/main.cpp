@@ -27,7 +27,7 @@ int main()
 	public:
 		float radius = 10.0f;
 		float launchSpeed = 150.0f;
-		float launchAngle = 45.0f;
+		float launchAngle = 90.0f;
 
 		Vector2 birdposition;
 		Vector2 launchposition;
@@ -53,6 +53,7 @@ int main()
 			birdacceleration = { 0.0f, 9.81f }; // Gravity acceleration
 			bool launched = false;
 		}
+		// Used a method to reset position and velocity when space is pressed
 
 		void launch()
 		{
@@ -113,6 +114,14 @@ int main()
 			bird.launchVelocity = Vector2Rotate(Vector2UnitX, bird.launchAngle) * bird.launchSpeed;
 			bird.birdvelocity = bird.launchVelocity;
 		}
+		if(IsKeyDown(KEY_G)) // Increasing gravity
+		{
+			bird.birdacceleration.y += 9.81f * dt;
+		}
+		if(IsKeyDown(KEY_H)) // Decreasing gravity
+		{
+			bird.birdacceleration.y -= 9.81f * dt;
+		}
 	
 		if(IsKeyDown(KEY_ESCAPE))
 		{
@@ -141,6 +150,8 @@ int main()
 			DrawText(TextFormat("Launch Position: %f %f ",bird.launchposition.x, bird.launchposition.y),10,30,20, BLACK);
 			DrawText(TextFormat("Launch Angle: %f ", bird.launchAngle), 10, 50, 20, BLACK);
 			DrawText(TextFormat("Launch Speed: %f ", bird.launchSpeed), 10, 70, 20, BLACK);
+			DrawText(TextFormat("Gravity: %f ", bird.birdacceleration), 10, 90, 20, BLACK);
+			
         EndDrawing();
     }
 
